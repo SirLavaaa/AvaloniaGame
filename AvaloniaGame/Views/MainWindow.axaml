@@ -14,7 +14,29 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
+    <StackPanel Margin="20">
+		<StackPanel Margin="0 0 0 20" Orientation="Horizontal" Spacing="10">
+        <TextBox Watermark="Search..." Width="600" Text="{Binding SearchText}" />
+        <ComboBox ItemsSource="{Binding Studios}" SelectedItem="{Binding SelectedStudio}">
+                <ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        
+        <ListBox ItemsSource="{Binding Games}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock Text="{Binding Name}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
     
 
 </Window>
