@@ -22,6 +22,17 @@ namespace AvaloniaGame.ViewModels
 
         [ObservableProperty]
         private string _searchText;
+
+        [ObservableProperty]
+        private string _selectedSort;
+        public List<string> SortOptions { get; } = new()
+        {
+            "Reset",
+            "Name >",
+            "Name <",
+            "Copies > ",
+            "Copies <"
+        };
         public MainWindowViewModel()
         {
             LoadData();
@@ -49,6 +60,10 @@ namespace AvaloniaGame.ViewModels
         {
             ApplyFilters();
         }
+        partial void OnSelectedSortChanged(string value)
+        {
+            ApplyFilters();
+        }
         private void ApplyFilters()
         {
             var query = _allGames.AsEnumerable();
@@ -62,6 +77,14 @@ namespace AvaloniaGame.ViewModels
             {
                 query = query.Where(g => g.Studio.Id == SelectedStudio.Id);
             }
+            query = SelectedSort switch
+            {
+                "Name >" => query.OrderBy(g => g.Name),
+                "Name <" => query.OrderByDescending(g => g.Name),
+                "Copies >" => query.OrderBy(g => g.Copy),
+                "Copies <" => query.OrderByDescending(g => g.Copy),
+                _ => query
+            };
 
             Games.Clear();
 
